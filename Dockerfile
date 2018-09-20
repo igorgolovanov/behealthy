@@ -25,4 +25,4 @@ USER node
 EXPOSE 3000
 
 ENTRYPOINT [ "sh", "-c" ]
-CMD [ "rejoice -c ./manifest/${NODE_ENV:-production}.json" ]
+CMD [ "rejoice  -p . -c ./manifest/${NODE_ENV:-production}.json" ]

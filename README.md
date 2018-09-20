@@ -1,2 +1,14 @@
 # Be Healthy
 
+Environment variables:
+* NODE_ENV
+* HOST
+* PORT
+* DB_HOST
+* DB_PORT
+* DB_DATABASE
+* DB_USERNAME
+* DB_PASSWORD
+* DB_POOL_SIZE_MIN
+* DB_POOL_SIZE_MAX
+* JWT_SECRET_KEY

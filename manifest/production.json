@@ -1,0 +1,97 @@
+{
+  "server": {
+    "port": "$env.PORT",
+    "host": "$env.HOST"
+  },
+  "register": {
+    "plugins": [
+      {
+        "plugin": "good",
+        "options": {
+          "ops": {
+            "interval": 60000
+          },
+          "reporters": {
+            "stdout": [
+              {
+                "module": "good-squeeze",
+                "name": "Squeeze",
+                "args": [
+                  {
+                    "log": {
+                      "exclude": [
+                        "error"
+                      ]
+                    },
+                    "ops": "*"
+                  }
+                ]
+              },
+              {
+                "module": "good-console"
+              },
+              "stdout"
+            ],
+            "stderr": [
+              {
+                "module": "good-squeeze",
+                "name": "Squeeze",
+                "args": [
+                  {
+                    "error": "*",
+                    "log": [
+                      "error"
+                    ]
+                  }
+                ]
+              },
+              {
+                "module": "good-console"
+              },
+              "stderr"
+            ]
+          }
+        }
+      },
+      "vision",
+      "inert",
+      {
+        "plugin": "hapi-swagger",
+        "options": {
+          "info": {
+            "title": "Be Healthy API Documentation"
+          },
+          "cache": {
+            "expiresIn": 300000
+          }
+        }
+      },
+      {
+        "plugin": ".",
+        "options": {
+          "jwtSecretKey": "$env.JWT_SECRET_KEY",
+          "db": {
+            "client": "mysql2",
+            "connection": {
+              "host": "$env.DB_HOST",
+              "port": "$env.DB_PORT",
+              "user": "$env.DB_USERNAME",
+              "password": "$env.DB_PASSWORD",
+              "database": "$env.DB_DATABASE"
+            },
+            "pool": {
+              "min": "$env.DB_POOL_SIZE_MIN",
+              "max": "$env.DB_POOL_SIZE_MAX"
+            },
+            "snakeCaseMapping": true,
+            "migrations": {
+              "auto": true,
+              "directory": "./resource/db/migrations",
+              "tableName": "migration"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

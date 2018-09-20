@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  behealthy_db:
+    image: mysql:5.7
+    volumes:
+    - db_data:/var/lib/mysql
+    - ./db:/docker-entrypoint-initdb.d
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: behealthy_db_root_pass
+      MYSQL_DATABASE: behealthy_db_database
+      MYSQL_USER: behealthy_db_user
+      MYSQL_PASSWORD: behealthy_db_pass
+
+  behealthy_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+    - behealthy_db
+    ports:
+    - "8080:3000"
+    restart: always
+    environment:
+      PORT: 3000
+      NODE_ENV: development
+      JWT_SECRET_KEY: FR2knNpKuO9RoLkEEdxbNFNxI5v4QGCprWQOvT
+      DB_HOST: behealthy_db
+      DB_PORT: 3306
+      DB_DATABASE: behealthy_db_database
+      DB_USERNAME: behealthy_db_user
+      DB_PASSWORD: behealthy_db_pass
+
+volumes:
+  db_data:
+    driver: local
